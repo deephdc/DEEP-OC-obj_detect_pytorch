@@ -1,5 +1,5 @@
 {
-    "title": "DEEP Open Catalogue: Object Detection and Classification with Pytorch",
+    "title": "Object Detection and Classification with Pytorch",
     "summary": "A trained Region Convolutional Neural Network (Faster RCNN) for object detection and classification.",
     "description": [
 	"This is a plug-and-play tool for object detection and classification using deep neural networks (Faster R-CNN ",
@@ -39,14 +39,14 @@
 
 	],
     "keywords": [
-        "docker", "services", "library/pytorch", "rcnn", "faster-rcnn"
+        "docker", "services", "pytorch", "rcnn", "faster-rcnn", "object detection", "api-v2", "pre-trained"
     ],
     "license": "MIT",
     "date_creation": "2019-10-17",
     "sources": {
-		"dockerfile_repo": "https://github.com/silkedh/DEEP-OC-obj_detect_pytorch",
-		"docker_registry_repo": "https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch",
-		"code": "https://github.com/silkedh/obj_detect_pytorch"
+		"dockerfile_repo": "https://github.com/deephdc/DEEP-OC-obj_detect_pytorch",
+		"docker_registry_repo": "https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch",
+		"code": "https://github.com/deephdc/obj_detect_pytorch"
 	},
     "continuous_integration": {
         "build_status_badge": "https://jenkins.indigo-datacloud.eu/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/DEEP-OC-obj_detect_pytorch/master",
@@ -54,8 +54,8 @@
     },
     "tosca": [
         {
-            "title": "Mesos (CPU)",
-            "url": "https://raw.githubusercontent.com/indigo-dc/tosca-templates/master/deep-oc/deep-oc-mesos-webdav.yml",
+            "title": "Marathon (CPU)",
+            "url": "https://raw.githubusercontent.com/indigo-dc/tosca-templates/master/deep-oc/deep-oc-marathon-webdav.yml",
             "inputs": [
                 "rclone_conf",
                 "rclone_url",
