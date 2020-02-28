@@ -18,11 +18,11 @@ To run the Docker container directly from Docker Hub and start using the API
 simply run the following command:
 
 ```bash
-$ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch
+$ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch
 ```
 
 This command will pull the Docker container from the Docker Hub
-[https://hub.docker.com/u/silked](https://hub.docker.com/u/https://hub.docker.com/u/silked/) repository and start the default command (deepaas-run --listen-ip=0.0.0.0).
+[https://hub.docker.com/r/deephdc](https://hub.docker.com/u/https://hub.docker.com/r/deephdc/) repository and start the default command (deepaas-run --listen-ip=0.0.0.0).
 
 ### Running via docker-compose
 
