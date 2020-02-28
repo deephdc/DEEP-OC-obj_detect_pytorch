@@ -106,7 +106,7 @@ RUN if [ "x$jlab" ]; then \
 
 
 # Install user app:
-RUN git clone -b $branch https://github.com/silkedh/obj_detect_pytorch && \
+RUN git clone -b $branch https://github.com/deephdc/obj_detect_pytorch && \
     cd  obj_detect_pytorch && \
     pip install --no-cache-dir -e . && \
     rm -rf /root/.cache/pip/* && \
