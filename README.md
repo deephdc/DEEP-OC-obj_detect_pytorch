@@ -7,7 +7,7 @@
 [![Build Status](https://jenkins.indigo-datacloud.eu/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/DEEP-OC-obj_detect_pytorch/master)](https://jenkins.indigo-datacloud.eu/job/Pipeline-as-code/job/DEEP-OC-org/job/DEEP-OC-obj_detect_pytorch/job/master)
 
 This is a container that will simply run the DEEP as a Service API component,
-with obj_detect_pytorch (src: [obj_detect_pytorch](https://github.com/silkedh/obj_detect_pytorch)).
+with obj_detect_pytorch (src: [obj_detect_pytorch](https://github.com/deephdc/obj_detect_pytorch)).
 
     
 ## Running the container
