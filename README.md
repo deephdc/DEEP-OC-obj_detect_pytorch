@@ -4,7 +4,7 @@
 
 # DEEP-OC-obj_detect_pytorch
 
-[![Build Status](https://jenkins.indigo-datacloud.eu:8080/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/DEEP-OC-obj_detect_pytorch/master)](https://jenkins.indigo-datacloud.eu:8080/job/Pipeline-as-code/job/DEEP-OC-org/job/DEEP-OC-obj_detect_pytorch/job/master)
+[![Build Status](https://jenkins.indigo-datacloud.eu/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/DEEP-OC-obj_detect_pytorch/master)](https://jenkins.indigo-datacloud.eu/job/Pipeline-as-code/job/DEEP-OC-org/job/DEEP-OC-obj_detect_pytorch/job/master)
 
 This is a container that will simply run the DEEP as a Service API component,
 with obj_detect_pytorch (src: [obj_detect_pytorch](https://github.com/silkedh/obj_detect_pytorch)).
@@ -47,20 +47,20 @@ Building the container:
 1. Get the `DEEP-OC-obj_detect_pytorch` repository (this repo):
 
     ```bash
-    $ git clone https://github.com/silkedh/DEEP-OC-obj_detect_pytorch
+    $ git clone https://github.com/deephdc/DEEP-OC-obj_detect_pytorch
     ```
 
 2. Build the container:
 
     ```bash
     $ cd DEEP-OC-obj_detect_pytorch
-    $ docker build -t https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch .
+    $ docker build -t https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch .
     ```
 
 3. Run the container:
 
     ```bash
-    $ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch
+    $ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch
     ```
 
 These three steps will download the repository from GitHub and will build the
