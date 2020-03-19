@@ -9,8 +9,8 @@ pipeline {
 
     environment {
         dockerhub_repo = "deephdc/deep-oc-obj_detect_pytorch"
-        base_cpu_tag = "1.10.0-py3"
-        base_gpu_tag = "1.10.0-gpu-py3"
+        base_cpu_tag = "1.4-cuda10.1-cudnn7-runtime"
+        base_gpu_tag = "1.4-cuda10.1-cudnn7-runtime"
     }
 
     stages {

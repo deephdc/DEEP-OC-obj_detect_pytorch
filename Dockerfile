@@ -81,9 +81,9 @@ RUN pip install --no-cache-dir \
     rm -rf /tmp/*
 
 
-RUN pip install --upgrade cython
+RUN pip install cython==0.29.14
 
-RUN python3 setup.py install
+RUN pip install pycocotools
 
 #Run opencv architecture
 RUN DEBIAN_FRONTEND=noninteractive dpkg --add-architecture i386 &&\
