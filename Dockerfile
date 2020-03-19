@@ -83,6 +83,7 @@ RUN pip install --no-cache-dir \
 
 RUN pip install --upgrade cython
 
+RUN python3 setup.py install
 
 #Run opencv architecture
 RUN DEBIAN_FRONTEND=noninteractive dpkg --add-architecture i386 &&\
