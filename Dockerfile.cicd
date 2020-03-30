@@ -22,7 +22,8 @@ LABEL version='0.0.0'
 ARG pyVer=python3
 
 
-# Install ubuntu updates and python related stuff
+# Install ubuntu updates, packages for testing obj_detect_pytorch
+# and python related stuff.
 # link python3 to python, pip3 to pip, if needed
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -65,16 +66,6 @@ WORKDIR /srv
 # install cython, numpy manually as pycocotools depend on them
 # but does not require during the installation (bug)
 RUN pip install --no-cache cython==0.29.14  numpy
-
-
-# Run opencv architecture
-#RUN DEBIAN_FRONTEND=noninteractive dpkg --add-architecture i386 &&\
-#	apt-get update &&\
-#	apt-get  -y install libgtk2.0-dev && \
-#    apt-get clean && \
-#    rm -rf /var/lib/apt/lists/* && \
-#    rm -rf /root/.cache/pip/* && \
-#    rm -rf /tmp/*
 
 
 CMD ["tox", "--help"]
