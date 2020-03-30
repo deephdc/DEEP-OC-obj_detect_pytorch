@@ -4,10 +4,10 @@
 
 # DEEP-OC-obj_detect_pytorch
 
-[![Build Status](https://jenkins.indigo-datacloud.eu:8080/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/DEEP-OC-obj_detect_pytorch/master)](https://jenkins.indigo-datacloud.eu:8080/job/Pipeline-as-code/job/DEEP-OC-org/job/DEEP-OC-obj_detect_pytorch/job/master)
+[![Build Status](https://jenkins.indigo-datacloud.eu/buildStatus/icon?job=Pipeline-as-code/DEEP-OC-org/DEEP-OC-obj_detect_pytorch/master)](https://jenkins.indigo-datacloud.eu/job/Pipeline-as-code/job/DEEP-OC-org/job/DEEP-OC-obj_detect_pytorch/job/master)
 
 This is a container that will simply run the DEEP as a Service API component,
-with obj_detect_pytorch (src: [obj_detect_pytorch](https://github.com/silkedh/obj_detect_pytorch)).
+with obj_detect_pytorch (src: [obj_detect_pytorch](https://github.com/deephdc/obj_detect_pytorch)).
 
     
 ## Running the container
@@ -18,11 +18,11 @@ To run the Docker container directly from Docker Hub and start using the API
 simply run the following command:
 
 ```bash
-$ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch
+$ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch
 ```
 
 This command will pull the Docker container from the Docker Hub
-[https://hub.docker.com/u/silked](https://hub.docker.com/u/https://hub.docker.com/u/silked/) repository and start the default command (deepaas-run --listen-ip=0.0.0.0).
+[https://hub.docker.com/r/deephdc](https://hub.docker.com/u/https://hub.docker.com/r/deephdc/) repository and start the default command (deepaas-run --listen-ip=0.0.0.0).
 
 ### Running via docker-compose
 
@@ -47,20 +47,20 @@ Building the container:
 1. Get the `DEEP-OC-obj_detect_pytorch` repository (this repo):
 
     ```bash
-    $ git clone https://github.com/silkedh/DEEP-OC-obj_detect_pytorch
+    $ git clone https://github.com/deephdc/DEEP-OC-obj_detect_pytorch
     ```
 
 2. Build the container:
 
     ```bash
     $ cd DEEP-OC-obj_detect_pytorch
-    $ docker build -t https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch .
+    $ docker build -t https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch .
     ```
 
 3. Run the container:
 
     ```bash
-    $ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/u/silked/deep-oc-obj_detect_pytorch
+    $ docker run -ti -p 5000:5000 -p 6006:6006 https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch
     ```
 
 These three steps will download the repository from GitHub and will build the
