@@ -9,8 +9,8 @@ pipeline {
 
     environment {
         dockerhub_repo = "deephdc/deep-oc-obj_detect_pytorch"
-        base_cpu_tag = "1.4-cuda10.1-cudnn7-runtime"
-        base_gpu_tag = "1.4-cuda10.1-cudnn7-runtime"
+        base_tag = "1.4-cuda10.1-cudnn7-runtime"
+        dockerhub_repo_cicd = "deephdc/ci_cd-obj_detect_pytorch"
     }
 
     stages {
@@ -20,13 +20,19 @@ pipeline {
                 sh 'deep-app-schema-validator metadata.json'
             }
         }
-        stage('Docker image building') {
+        stage('Docker image building and delivery') {
             when {
-                anyOf {
-                   branch 'master'
-                   branch 'test'
-                   buildingTag()
-               }
+                allOf {
+                    anyOf {
+                       branch 'master'
+                       branch 'test'
+                       buildingTag()
+                    }
+                    anyOf {
+                       changeset 'Dockerfile'
+                       changeset 'Jenkinsfile'
+                    }
+                }
             }
             steps{
                 checkout scm
@@ -36,55 +42,23 @@ pipeline {
 
                     if (env.BRANCH_NAME == 'master') {
                        // CPU (aka latest, i.e. default)
-                       id_cpu = DockerBuild(id,
-                                            tag: ['latest', 'cpu'], 
-                                            build_args: ["tag=${env.base_cpu_tag}",
-                                                         "branch=master"])
-
-                       // GPU
-                       id_gpu = DockerBuild(id,
-                                            tag: ['gpu'], 
-                                            build_args: ["tag=${env.base_gpu_tag}",
-                                                         "branch=master"])
+                       // GPU : pytorch allows to run same image on CPU or GPU
+                       id_cpu_gpu = DockerBuild(id,
+                                                tag: ['latest', 'cpu', 'gpu'], 
+                                                build_args: ["tag=${env.base_tag}",
+                                                             "branch=master"])
                     }
 
                     if (env.BRANCH_NAME == 'test') {
-                       // CPU
-                       id_cpu = DockerBuild(id,
-                                            tag: ['test', 'cpu-test'], 
-                                            build_args: ["tag=${env.base_cpu_tag}",
-                                                         "branch=test"])
-
-                       // GPU
-                       id_gpu = DockerBuild(id,
-                                            tag: ['gpu-test'], 
-                                            build_args: ["tag=${env.base_gpu_tag}",
-                                                         "branch=test"])
+                       // CPU + GPU
+                       id_cpu_gpu = DockerBuild(id,
+                                                tag: ['test', 'cpu-test', 'gpu-test'], 
+                                                build_args: ["tag=${env.base_tag}",
+                                                             "branch=test"])
                     }
 
-                }
-            }
-            post {
-                failure {
-                    DockerClean()
-                }
-            }
-        }
 
-
-
-        stage('Docker Hub delivery') {
-            when {
-                anyOf {
-                   branch 'master'
-                   branch 'test'
-                   buildingTag()
-               }
-            }
-            steps{
-                script {
-                    DockerPush(id_cpu)
-                    DockerPush(id_gpu)
+                    DockerPush(id_cpu_gpu)
                 }
             }
             post {
@@ -96,6 +70,46 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker image for CI/CD building and delivery') {
+            when {
+                allOf {
+                    anyOf {
+                       branch 'master'
+                       branch 'test'
+                       buildingTag()
+                    }
+                    anyOf {
+                       changeset 'Dockerfile.cicd'
+                       changeset 'Jenkinsfile'
+                    }
+                }
+            }
+            steps{
+                checkout scm
+                script {
+                    // build Docker image for CI/CD
+                    // default: image=ubuntu, tag=18.04
+                    id = "${env.dockerhub_repo_cicd}"
+                       id_cicd = DockerBuild(id,
+                                             tag: ['latest', 'cicd'], 
+                                             build_args: ["image=ubuntu",
+                                                          "tag=18.04"],
+                                             dockerfile_path: "Dockerfile.cicd")
+
+                    DockerPush(id_cicd)
+                }
+            }
+            post {
+                failure {
+                    DockerClean()
+                }
+                always {
+                    cleanWs()
+                }
+            }
+        }
+
 
         stage("Render metadata on the marketplace") {
             when {

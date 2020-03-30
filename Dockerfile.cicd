@@ -1,0 +1,76 @@
+# Dockerfile to run tests for obj_detect_pytorch app
+# Dockerfile may have following Arguments:
+# image - base image (default: ubuntu)
+# tag - tag for the image (default: 18.04)
+#
+# To build the image:
+# $ docker build -t <dockerhub_user>/<dockerhub_repo> --build-arg arg=value .
+# or using default args:
+# $ docker build -t <dockerhub_user>/<dockerhub_repo> .
+
+ARG image=ubuntu
+ARG tag=18.04
+# Base image, e.g. ubuntu:18.04
+FROM ${image}:${tag}
+
+
+LABEL maintainer='Silke Donayre'
+LABEL version='0.0.0'
+# Object detection with pytorch
+
+# python version
+ARG pyVer=python3
+
+
+# Install ubuntu updates and python related stuff
+# link python3 to python, pip3 to pip, if needed
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    apt-get install -y --no-install-recommends \
+         curl \
+         gcc \
+         git \
+         tox \
+         wget \
+         $pyVer-dev \
+         $pyVer-pip \
+         $pyVer-setuptools \
+         $pyVer-wheel && \ 
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /root/.cache/pip/* && \
+    rm -rf /tmp/* && \
+    if [ "$pyVer" = "python3" ] ; then \
+       if [ ! -e /usr/bin/pip ]; then \
+          ln -s /usr/bin/pip3 /usr/bin/pip; \
+       fi; \
+       if [ ! -e /usr/bin/python ]; then \
+          ln -s /usr/bin/python3 /usr/bin/python; \
+       fi; \
+    fi && \
+    python --version && \
+    pip --version
+
+
+# Set LANG environment
+ENV LANG C.UTF-8
+
+# Set the working directory
+WORKDIR /srv
+
+
+# install cython, numpy manually as pycocotools depend on them
+# but does not require during the installation (bug)
+RUN pip install --no-cache cython==0.29.14  numpy
+
+
+# Run opencv architecture
+#RUN DEBIAN_FRONTEND=noninteractive dpkg --add-architecture i386 &&\
+#	apt-get update &&\
+#	apt-get  -y install libgtk2.0-dev && \
+#    apt-get clean && \
+#    rm -rf /var/lib/apt/lists/* && \
+#    rm -rf /root/.cache/pip/* && \
+#    rm -rf /tmp/*
+
+
+CMD ["tox", "--help"]
