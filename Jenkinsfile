@@ -71,6 +71,7 @@ pipeline {
             }
         }
 
+
         stage('Docker image for CI/CD building and delivery') {
             when {
                 allOf {
