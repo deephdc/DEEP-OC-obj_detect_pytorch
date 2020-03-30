@@ -20,7 +20,7 @@ pipeline {
                 sh 'deep-app-schema-validator metadata.json'
             }
         }
-        stage('Docker image building') {
+        stage('Docker image building and delivery') {
             when {
                 allOf {
                     anyOf {
@@ -57,16 +57,22 @@ pipeline {
                                                              "branch=test"])
                     }
 
+
+                    DockerPush(id_cpu_gpu)
                 }
             }
             post {
                 failure {
                     DockerClean()
                 }
+                always {
+                    cleanWs()
+                }
             }
         }
 
-        stage('Docker image for CI/CD building') {
+
+        stage('Docker image for CI/CD building and delivery') {
             when {
                 allOf {
                     anyOf {
@@ -90,29 +96,9 @@ pipeline {
                                              tag: ['latest', 'cicd'], 
                                              build_args: ["image=ubuntu",
                                                           "tag=18.04"],
-                                             dockerfile_path: ["Dockerfile.cicd"])
-                }
-            }
-            post {
-                failure {
-                    DockerClean()
-                }
-            }
-        }
+                                             dockerfile_path: "Dockerfile.cicd")
 
-
-        stage('Docker Hub delivery') {
-            when {
-                anyOf {
-                   branch 'master'
-                   branch 'test'
-                   buildingTag()
-               }
-            }
-            steps{
-                script {
-                    DockerPush(id_cpu)
-                    DockerPush(id_gpu)
+                    DockerPush(id_cicd)
                 }
             }
             post {
@@ -124,6 +110,7 @@ pipeline {
                 }
             }
         }
+
 
         stage("Render metadata on the marketplace") {
             when {

@@ -39,7 +39,15 @@
 
 	],
     "keywords": [
-        "docker", "services", "pytorch", "rcnn", "faster-rcnn", "object detection", "api-v2", "pre-trained"
+        "services", 
+        "pytorch", 
+        "rcnn", 
+        "faster-rcnn", 
+        "object detection", 
+        "trainable",
+        "inference",
+        "pre-trained",
+        "api-v2"
     ],
     "license": "MIT",
     "date_creation": "2019-10-17",
