@@ -8,11 +8,11 @@
 # or using default args:
 # $ docker build -t <dockerhub_user>/<dockerhub_repo> .
 
-ARG tag=1.10.0-py3
+ARG tag=1.4-cuda10.1-cudnn7-runtime
 
 # Base image, e.g. tensorflow/tensorflow:1.12.0-py3
 #FROM pytorch/pytorch:1.2-cuda10.0-cudnn7-runtime
-FROM pytorch/pytorch:1.4-cuda10.1-cudnn7-runtime
+FROM pytorch/pytorch:${tag}
 
 
 LABEL maintainer='Silke Donayre'
@@ -81,9 +81,9 @@ RUN pip install --no-cache-dir \
     rm -rf /tmp/*
 
 
+# install it manually due to a bug in the installation of pycocotools
 RUN pip install cython==0.29.14
 
-RUN pip install pycocotools
 
 #Run opencv architecture
 RUN DEBIAN_FRONTEND=noninteractive dpkg --add-architecture i386 &&\
@@ -93,18 +93,22 @@ RUN DEBIAN_FRONTEND=noninteractive dpkg --add-architecture i386 &&\
 # Disable FLAAT authentication by default
 ENV DISABLE_AUTHENTICATION_AND_ASSUME_AUTHENTICATED_USER no
 
-# Install DEEP debug_log scripts:
-RUN git clone https://github.com/deephdc/deep-debug_log /srv/.debug_log
+# EXPERIMENTAL: install deep-start script
+# N.B.: This repository also contains run_jupyter.sh
+# For compatibility, create symlink /srv/.jupyter/run_jupyter.sh
+RUN git clone https://github.com/deephdc/deep-start /srv/.deep-start && \
+    ln -s /srv/.deep-start/deep-start.sh /usr/local/bin/deep-start && \
+    ln -s /srv/.deep-start/run_jupyter.sh /usr/local/bin/run_jupyter && \
+    mkdir -p /srv/.jupyter && \
+    ln -s /srv/.deep-start/run_jupyter.sh /srv/.jupyter/run_jupyter.sh
 
 # Install JupyterLab
-ENV JUPYTER_CONFIG_DIR /srv/.jupyter/
+ENV JUPYTER_CONFIG_DIR /srv/.deep-start/
 # Necessary for the Jupyter Lab terminal
 ENV SHELL /bin/bash
-RUN if [ "x$jlab" ]; then \
+RUN if [ "$jlab" = true ]; then \
        pip install --no-cache-dir jupyterlab ; \
-       git clone https://github.com/deephdc/deep-jupyter /srv/.jupyter ; \
     else echo "[INFO] Skip JupyterLab installation!"; fi
-
 
 # Install user app:
 RUN git clone -b $branch https://github.com/deephdc/obj_detect_pytorch && \
