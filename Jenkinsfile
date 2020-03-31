@@ -94,11 +94,20 @@ pipeline {
                     // build Docker image for CI/CD
                     // default: image=ubuntu, tag=18.04
                     id = "${env.dockerhub_repo_cicd}"
+                    if (env.BRANCH_NAME == 'master') {
                        id_cicd = DockerBuild(id,
-                                             tag: ['latest', 'cicd'], 
+                                             tag: ['latest', 'master'], 
                                              build_args: ["image=ubuntu",
                                                           "tag=18.04"],
                                              dockerfile_path: "Dockerfile.cicd")
+                    }
+                    if (env.BRANCH_NAME == 'test') {
+                       id_cicd = DockerBuild(id,
+                                             tag: ['test'], 
+                                             build_args: ["image=ubuntu",
+                                                          "tag=18.04"],
+                                             dockerfile_path: "Dockerfile.cicd")
+                    }
 
                     DockerPush(id_cicd)
                 }

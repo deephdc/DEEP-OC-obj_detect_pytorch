@@ -32,6 +32,7 @@ ARG pyVer=python3
 # link python3 to python, pip3 to pip, if needed
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y --no-install-recommends \
+         cloc \
          curl \
          gcc \
          git \
