@@ -53,7 +53,7 @@
     "date_creation": "2019-10-17",
     "sources": {
 		"dockerfile_repo": "https://github.com/deephdc/DEEP-OC-obj_detect_pytorch",
-		"docker_registry_repo": "https://hub.docker.com/r/deephdc/deep-oc-obj_detect_pytorch",
+		"docker_registry_repo": "deephdc/deep-oc-obj_detect_pytorch",
 		"code": "https://github.com/deephdc/obj_detect_pytorch"
 	},
     "continuous_integration": {
